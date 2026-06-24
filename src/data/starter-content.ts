@@ -1,0 +1,282 @@
+import type { LuminaState, Note, Study, StudyNode, UserSettings } from "@/src/types/lumina";
+
+export const DEMO_USER_ID = "demo-user";
+
+const createdAt = "2026-06-23T22:30:00.000Z";
+
+export const suggestedTopics = [
+  "Fe",
+  "Ansiedade",
+  "Perdao",
+  "Oracao",
+  "Sabedoria",
+  "Salvacao",
+];
+
+export const defaultSettings: UserSettings = {
+  userId: DEMO_USER_ID,
+  theme: "light",
+  fontSize: "medium",
+  explanationLevel: "intermediate",
+  preferredTranslation: "Livre",
+  createdAt,
+  updatedAt: createdAt,
+};
+
+export const seedStudy: Study = {
+  id: "study-faith",
+  userId: DEMO_USER_ID,
+  title: "Fe",
+  theme: "Fe",
+  rootNodeId: "node-faith-root",
+  summary:
+    "Vamos explorar o que a Biblia ensina sobre fe e como ela se manifesta em diferentes situacoes.",
+  totalNodes: 8,
+  completedNodes: 4,
+  status: "active",
+  createdAt,
+  updatedAt: createdAt,
+};
+
+export const seedNodes: StudyNode[] = [
+  {
+    id: "node-faith-root",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: null,
+    rootNodeId: "node-faith-root",
+    type: "root",
+    title: "Fe",
+    description:
+      "Estudo iniciado em 20/05/2025 com foco em confianca, perseveranca e pratica.",
+    aiSummary:
+      "A fe aparece como confianca no que Deus prometeu, resposta a Palavra e fundamento para perseverar.",
+    childrenIds: [
+      "node-what-faith",
+      "node-hard-times",
+      "node-faith-works",
+    ],
+    depth: 0,
+    path: ["fe"],
+    status: "in_progress",
+    isFavorite: false,
+    isPinned: true,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-what-faith",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-faith-root",
+    rootNodeId: "node-faith-root",
+    type: "branch",
+    title: "O que e fe?",
+    description: "Entendendo o conceito biblico de fe.",
+    aiSummary: "Fe envolve certeza, esperanca, obediencia e escuta da Palavra.",
+    childrenIds: ["node-heb-11-1", "node-rom-10-17"],
+    depth: 1,
+    path: ["fe", "o-que-e-fe"],
+    status: "completed",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-heb-11-1",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-what-faith",
+    rootNodeId: "node-faith-root",
+    type: "verse",
+    title: "Hebreus 11:1",
+    description:
+      "Ora, a fe e a certeza das coisas que se esperam, e a prova das coisas que nao se veem.",
+    bibleReference: {
+      book: "Hebreus",
+      bookId: "heb",
+      chapter: 11,
+      verseStart: 1,
+      translation: "Livre",
+    },
+    aiExplanation:
+      "O versiculo descreve a fe como uma confianca que se apoia na fidelidade de Deus, mesmo quando o resultado ainda nao e visivel.",
+    childrenIds: ["node-certainty", "node-faith-application"],
+    depth: 2,
+    path: ["fe", "o-que-e-fe", "hebreus-11-1"],
+    status: "completed",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-certainty",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-heb-11-1",
+    rootNodeId: "node-faith-root",
+    type: "question",
+    title: "Duvida: O que significa certeza?",
+    description: "Exploracao do significado da palavra certeza no contexto.",
+    aiExplanation:
+      "O termo certeza aponta para confianca firme, fundamento e realidade substancial daquilo que se espera em Deus.",
+    childrenIds: [],
+    depth: 3,
+    path: ["fe", "o-que-e-fe", "hebreus-11-1", "certeza"],
+    status: "in_progress",
+    isFavorite: true,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-faith-application",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-heb-11-1",
+    rootNodeId: "node-faith-root",
+    type: "application",
+    title: "Aplicacao pratica: Fe no dia a dia",
+    description: "Como aplicar Hebreus 11:1 na vida cotidiana.",
+    aiExplanation:
+      "A aplicacao pratica e caminhar com obediencia mesmo antes de ver todo o caminho, mantendo a esperanca alinhada com a Palavra.",
+    childrenIds: [],
+    depth: 3,
+    path: ["fe", "o-que-e-fe", "hebreus-11-1", "aplicacao-pratica"],
+    status: "completed",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-rom-10-17",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-what-faith",
+    rootNodeId: "node-faith-root",
+    type: "verse",
+    title: "Romanos 10:17",
+    description:
+      "Logo, a fe vem pelo ouvir, e o ouvir pela palavra de Cristo.",
+    bibleReference: {
+      book: "Romanos",
+      bookId: "rom",
+      chapter: 10,
+      verseStart: 17,
+      translation: "Livre",
+    },
+    aiExplanation:
+      "Paulo conecta fe a escuta da Palavra, mostrando que a confianca cresce quando o coracao e orientado pelo testemunho de Cristo.",
+    childrenIds: [],
+    depth: 2,
+    path: ["fe", "o-que-e-fe", "romanos-10-17"],
+    status: "not_started",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-hard-times",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-faith-root",
+    rootNodeId: "node-faith-root",
+    type: "branch",
+    title: "Fe em momentos dificeis",
+    description: "Versiculos que fortalecem nossa fe nas provacoes.",
+    childrenIds: [],
+    depth: 1,
+    path: ["fe", "fe-em-momentos-dificeis"],
+    status: "not_started",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "node-faith-works",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    parentId: "node-faith-root",
+    rootNodeId: "node-faith-root",
+    type: "branch",
+    title: "Fe e obras",
+    description: "A relacao entre fe verdadeira e atitudes.",
+    childrenIds: [],
+    depth: 1,
+    path: ["fe", "fe-e-obras"],
+    status: "not_started",
+    isFavorite: false,
+    isPinned: false,
+    createdAt,
+    updatedAt: createdAt,
+  },
+];
+
+export const seedNotes: Note[] = [
+  {
+    id: "note-certainty",
+    userId: DEMO_USER_ID,
+    studyId: "study-faith",
+    nodeId: "node-certainty",
+    title: "Confiar mesmo sem ver",
+    content:
+      "A certeza em Hebreus 11:1 nao parece pressa por respostas, mas descanso no carater de Deus.",
+    createdAt,
+    updatedAt: createdAt,
+  },
+];
+
+export function createInitialState(): LuminaState {
+  return {
+    user: null,
+    studies: [seedStudy],
+    nodes: seedNodes,
+    messages: [
+      {
+        id: "message-faith-welcome",
+        studyId: "study-faith",
+        nodeId: "node-faith-root",
+        userId: DEMO_USER_ID,
+        role: "assistant",
+        content:
+          "Vamos estudar fe como uma jornada: conceito, referencias, perguntas e aplicacoes praticas.",
+        generatedNodeIds: ["node-what-faith", "node-hard-times"],
+        references: [
+          {
+            book: "Hebreus",
+            bookId: "heb",
+            chapter: 11,
+            verseStart: 1,
+            translation: "Livre",
+          },
+        ],
+        createdAt,
+      },
+    ],
+    favorites: [
+      {
+        id: "favorite-node-certainty",
+        userId: DEMO_USER_ID,
+        type: "node",
+        studyId: "study-faith",
+        nodeId: "node-certainty",
+        title: "Duvida: O que significa certeza?",
+        createdAt,
+      },
+    ],
+    notes: seedNotes,
+    settings: defaultSettings,
+    activeStudyId: "study-faith",
+    activeNodeId: "node-certainty",
+    expandedNodeIds: [
+      "node-faith-root",
+      "node-what-faith",
+      "node-heb-11-1",
+    ],
+  };
+}
