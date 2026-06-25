@@ -354,11 +354,13 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
     </div>
   );
 
-  function handleLogin(email: string, provider: "google" | "email") {
+  function handleLogin(email: string, provider: "google" | "email", nameOverride?: string) {
     const now = new Date().toISOString();
-    const displayName =
+    const resolvedName =
       provider === "google"
         ? "Joao"
+        : nameOverride?.trim()
+          ? nameOverride.trim()
         : email
             .split("@")[0]
             ?.replace(/[._-]+/g, " ")
@@ -368,7 +370,7 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
       ...prev,
       user: {
         id: DEMO_USER_ID,
-        name: displayName,
+        name: resolvedName,
         email: email || "joao@lumina.local",
         createdAt: now,
         updatedAt: now,
@@ -890,14 +892,52 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
   }
 }
 
-function LoginScreen({ onLogin }: { onLogin: (email: string, provider: "google" | "email") => void }) {
+function LoginScreen({
+  onLogin,
+}: {
+  onLogin: (email: string, provider: "google" | "email", displayName?: string) => void;
+}) {
+  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [name, setName] = useState("Joao");
   const [email, setEmail] = useState("joao@lumina.local");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("1234");
   const [recoverySent, setRecoverySent] = useState(false);
+  const [error, setError] = useState("");
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onLogin(email, "email");
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedName = name.trim();
+
+    if (!normalizedEmail) {
+      setError("Informe um e-mail para continuar.");
+      return;
+    }
+
+    if (mode === "signup" && normalizedName.length < 2) {
+      setError("Informe seu nome para criar a conta.");
+      return;
+    }
+
+    if (password.length < 4) {
+      setError("A senha precisa ter pelo menos 4 caracteres.");
+      return;
+    }
+
+    setError("");
+    setRecoverySent(false);
+    onLogin(normalizedEmail, "email", mode === "signup" ? normalizedName : undefined);
+  }
+
+  function recoverPassword() {
+    if (!email.trim()) {
+      setError("Informe o e-mail antes de recuperar a senha.");
+      return;
+    }
+
+    setError("");
+    setRecoverySent(true);
   }
 
   return (
@@ -911,18 +951,64 @@ function LoginScreen({ onLogin }: { onLogin: (email: string, provider: "google" 
         </h1>
         <p className="auth-copy">Estudos biblicos guiados em uma arvore de aprendizado.</p>
         <div className="form-stack">
+          <div className="auth-mode-toggle" role="tablist" aria-label="Modo de acesso">
+            <button
+              aria-selected={mode === "login"}
+              className={mode === "login" ? "active" : ""}
+              onClick={() => {
+                setMode("login");
+                setError("");
+              }}
+              role="tab"
+              type="button"
+            >
+              Entrar
+            </button>
+            <button
+              aria-selected={mode === "signup"}
+              className={mode === "signup" ? "active" : ""}
+              onClick={() => {
+                setMode("signup");
+                setError("");
+              }}
+              role="tab"
+              type="button"
+            >
+              Criar conta
+            </button>
+          </div>
           <button className="secondary-button" onClick={() => onLogin("joao@google.local", "google")}>
             <Icon name="user" />
             Entrar com Google
           </button>
           <form className="form-stack" onSubmit={submit}>
+            {mode === "signup" && (
+              <label className="field-label">
+                Nome
+                <input
+                  className="text-field"
+                  value={name}
+                  onChange={(event) => {
+                    setName(event.target.value);
+                    setError("");
+                  }}
+                  placeholder="Seu nome"
+                  required
+                />
+              </label>
+            )}
             <label className="field-label">
               E-mail
               <input
                 className="text-field"
                 type="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setError("");
+                  setRecoverySent(false);
+                }}
+                placeholder="voce@email.com"
                 required
               />
             </label>
@@ -932,19 +1018,26 @@ function LoginScreen({ onLogin }: { onLogin: (email: string, provider: "google" 
                 className="text-field"
                 type="password"
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setError("");
+                }}
                 minLength={4}
+                placeholder="Minimo 4 caracteres"
                 required
               />
             </label>
+            {error && <p className="auth-alert error">{error}</p>}
+            {recoverySent && (
+              <p className="auth-alert success">Link de recuperacao preparado para {email.trim()}.</p>
+            )}
             <button className="primary-button" type="submit">
-              Entrar
+              {mode === "signup" ? "Criar conta" : "Entrar"}
             </button>
           </form>
-          <button className="ghost-button" onClick={() => setRecoverySent(true)}>
+          <button className="ghost-button" onClick={recoverPassword}>
             Recuperar senha
           </button>
-          {recoverySent && <p className="muted">Link de recuperacao preparado para {email}.</p>}
         </div>
       </section>
     </main>
