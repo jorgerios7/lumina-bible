@@ -14,12 +14,13 @@ npm run build
 ## Estado atual
 
 - A experiencia funciona localmente com persistencia no navegador.
+- Login, cadastro e recuperacao de senha usam Firebase Authentication quando as variaveis publicas abaixo estao configuradas.
 - A Biblia usa os arquivos JSON locais em `app/data/bible` e cache IndexedDB quando disponivel.
 - A IA do MVP e deterministica e fica isolada em `src/services/ai/lumina-ai-service.ts`.
 - A chave Gemini nao e exposta no frontend; a integracao real deve acontecer via Cloud Function.
 - As regras conceituais do Firestore estao em `firestore.rules`.
 
-## Ambiente futuro
+## Ambiente
 
 Variaveis publicas do frontend:
 

@@ -18,6 +18,15 @@ import {
   type BibleBookData,
 } from "@/src/services/bible/bible-service";
 import { getFirebaseReadiness } from "@/src/services/firebase/firebase-contracts";
+import {
+  createEmailAccount,
+  getAuthErrorMessage,
+  requestPasswordReset,
+  signInWithEmail,
+  signInWithGoogle,
+  signOutAuthenticatedUser,
+  watchAuthenticatedUser,
+} from "@/src/services/firebase/firebase-auth-service";
 import { cacheBibleBook } from "@/src/services/storage/indexed-bible-cache";
 import { loadLuminaState, saveLuminaState } from "@/src/services/storage/local-store";
 import {
@@ -40,6 +49,7 @@ import type {
   Note,
   Study,
   StudyNode,
+  User,
 } from "@/src/types/lumina";
 
 type LuminaAppProps = {
@@ -64,6 +74,7 @@ const desktopViews: Array<{ view: AppView; label: string; icon: IconName }> = [
 export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
   const [state, setState] = useState<LuminaState>(() => createInitialState());
   const [hydrated, setHydrated] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const [view, setView] = useState<AppView>(initialView);
   const [studyPrompt, setStudyPrompt] = useState("");
   const [treeSearch, setTreeSearch] = useState("");
@@ -80,12 +91,19 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
     const savedState = loadLuminaState();
     const timeout = window.setTimeout(() => {
       if (savedState) {
-        setState(savedState);
+        setState((prev) => ({ ...savedState, user: prev.user }));
       }
       setHydrated(true);
     }, 0);
 
     return () => window.clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    return watchAuthenticatedUser((user) => {
+      setState((prev) => ({ ...prev, user }));
+      setAuthReady(true);
+    });
   }, []);
 
   useEffect(() => {
@@ -158,7 +176,7 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
   if (!state.user) {
     return (
       <div className={`lumina-root ${isDark ? "theme-dark" : ""} font-${state.settings.fontSize}`}>
-        <LoginScreen onLogin={handleLogin} />
+        {authReady ? <LoginScreen onAuthenticated={handleAuthenticatedUser} /> : <AuthLoadingScreen />}
       </div>
     );
   }
@@ -354,31 +372,17 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
     </div>
   );
 
-  function handleLogin(email: string, provider: "google" | "email", nameOverride?: string) {
-    const now = new Date().toISOString();
-    const resolvedName =
-      provider === "google"
-        ? "Joao"
-        : nameOverride?.trim()
-          ? nameOverride.trim()
-        : email
-            .split("@")[0]
-            ?.replace(/[._-]+/g, " ")
-            .replace(/\b\w/g, (letter) => letter.toUpperCase()) || "Joao";
-
+  function handleAuthenticatedUser(user: User) {
     setState((prev) => ({
       ...prev,
-      user: {
-        id: DEMO_USER_ID,
-        name: resolvedName,
-        email: email || "joao@lumina.local",
-        createdAt: now,
-        updatedAt: now,
-      },
+      user,
     }));
   }
 
   function handleLogout() {
+    signOutAuthenticatedUser().catch(() => {
+      setToast("Nao foi possivel encerrar a sessao no Firebase.");
+    });
     setState((prev) => ({ ...prev, user: null }));
     setView("studies");
   }
@@ -892,19 +896,34 @@ export function LuminaApp({ initialView = "studies" }: LuminaAppProps) {
   }
 }
 
+function AuthLoadingScreen() {
+  return (
+    <main className="auth-screen">
+      <section className="auth-panel" aria-live="polite">
+        <span className="brand-mark">
+          <Icon name="leaf" />
+        </span>
+        <h1 className="auth-title">Lumina Bible</h1>
+        <p className="auth-copy">Verificando sessao do Firebase...</p>
+      </section>
+    </main>
+  );
+}
+
 function LoginScreen({
-  onLogin,
+  onAuthenticated,
 }: {
-  onLogin: (email: string, provider: "google" | "email", displayName?: string) => void;
+  onAuthenticated: (user: User) => void;
 }) {
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [name, setName] = useState("Joao");
-  const [email, setEmail] = useState("joao@lumina.local");
-  const [password, setPassword] = useState("1234");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [recoverySent, setRecoverySent] = useState(false);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -920,24 +939,66 @@ function LoginScreen({
       return;
     }
 
-    if (password.length < 4) {
-      setError("A senha precisa ter pelo menos 4 caracteres.");
+    if (password.length < 6) {
+      setError("A senha precisa ter pelo menos 6 caracteres.");
       return;
     }
 
     setError("");
     setRecoverySent(false);
-    onLogin(normalizedEmail, "email", mode === "signup" ? normalizedName : undefined);
+
+    try {
+      setIsSubmitting(true);
+      const authenticatedUser =
+        mode === "signup"
+          ? await createEmailAccount({
+              name: normalizedName,
+              email: normalizedEmail,
+              password,
+            })
+          : await signInWithEmail(normalizedEmail, password);
+
+      onAuthenticated(authenticatedUser);
+    } catch (submitError) {
+      setError(getAuthErrorMessage(submitError));
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  function recoverPassword() {
-    if (!email.trim()) {
+  async function recoverPassword() {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
       setError("Informe o e-mail antes de recuperar a senha.");
       return;
     }
 
-    setError("");
-    setRecoverySent(true);
+    try {
+      setIsSubmitting(true);
+      setError("");
+      await requestPasswordReset(normalizedEmail);
+      setRecoverySent(true);
+    } catch (recoverError) {
+      setError(getAuthErrorMessage(recoverError));
+      setRecoverySent(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function loginWithGoogle() {
+    try {
+      setIsSubmitting(true);
+      setError("");
+      setRecoverySent(false);
+      const authenticatedUser = await signInWithGoogle();
+      onAuthenticated(authenticatedUser);
+    } catch (googleError) {
+      setError(getAuthErrorMessage(googleError));
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -955,6 +1016,7 @@ function LoginScreen({
             <button
               aria-selected={mode === "login"}
               className={mode === "login" ? "active" : ""}
+              disabled={isSubmitting}
               onClick={() => {
                 setMode("login");
                 setError("");
@@ -967,6 +1029,7 @@ function LoginScreen({
             <button
               aria-selected={mode === "signup"}
               className={mode === "signup" ? "active" : ""}
+              disabled={isSubmitting}
               onClick={() => {
                 setMode("signup");
                 setError("");
@@ -977,7 +1040,7 @@ function LoginScreen({
               Criar conta
             </button>
           </div>
-          <button className="secondary-button" onClick={() => onLogin("joao@google.local", "google")}>
+          <button className="secondary-button" disabled={isSubmitting} onClick={loginWithGoogle}>
             <Icon name="user" />
             Entrar com Google
           </button>
@@ -992,6 +1055,7 @@ function LoginScreen({
                     setName(event.target.value);
                     setError("");
                   }}
+                  disabled={isSubmitting}
                   placeholder="Seu nome"
                   required
                 />
@@ -1008,6 +1072,7 @@ function LoginScreen({
                   setError("");
                   setRecoverySent(false);
                 }}
+                disabled={isSubmitting}
                 placeholder="voce@email.com"
                 required
               />
@@ -1022,20 +1087,21 @@ function LoginScreen({
                   setPassword(event.target.value);
                   setError("");
                 }}
-                minLength={4}
-                placeholder="Minimo 4 caracteres"
+                disabled={isSubmitting}
+                minLength={6}
+                placeholder="Minimo 6 caracteres"
                 required
               />
             </label>
             {error && <p className="auth-alert error">{error}</p>}
             {recoverySent && (
-              <p className="auth-alert success">Link de recuperacao preparado para {email.trim()}.</p>
+              <p className="auth-alert success">Link de recuperacao enviado para {email.trim()}.</p>
             )}
-            <button className="primary-button" type="submit">
-              {mode === "signup" ? "Criar conta" : "Entrar"}
+            <button className="primary-button" disabled={isSubmitting} type="submit">
+              {isSubmitting ? "Processando..." : mode === "signup" ? "Criar conta" : "Entrar"}
             </button>
           </form>
-          <button className="ghost-button" onClick={recoverPassword}>
+          <button className="ghost-button" disabled={isSubmitting} onClick={recoverPassword}>
             Recuperar senha
           </button>
         </div>
