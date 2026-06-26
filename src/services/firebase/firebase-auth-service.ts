@@ -1,4 +1,4 @@
-import { FirebaseError, getApp, getApps, initializeApp } from "firebase/app";
+import { FirebaseError, getApps, initializeApp } from "firebase/app";
 import type { FirebaseOptions } from "firebase/app";
 import {
   browserLocalPersistence,
@@ -18,7 +18,6 @@ import {
 } from "firebase/auth";
 import {
   getMissingFirebaseFrontendVariables,
-  frontendEnvironmentVariables,
 } from "@/src/services/firebase/firebase-contracts";
 import type { User } from "@/src/types/lumina";
 
@@ -101,6 +100,10 @@ export function getAuthErrorMessage(error: unknown) {
     return "Nao foi possivel autenticar agora. Tente novamente.";
   }
 
+  if (error.code === "auth/missing-client-config" && error.message) {
+    return error.message;
+  }
+
   const messages: Record<string, string> = {
     "auth/email-already-in-use": "Este e-mail ja esta cadastrado. Entre com sua senha.",
     "auth/invalid-credential": "E-mail ou senha invalidos. Crie uma conta antes de entrar.",
@@ -120,19 +123,10 @@ export function getAuthErrorMessage(error: unknown) {
 }
 
 function isFirebaseAuthConfigured() {
-  return getMissingFirebaseFrontendVariables().length === 0;
+  return getApps().length > 0 || getMissingFirebaseFrontendVariables().length === 0;
 }
 
 async function getConfiguredAuth() {
-  const missingVariables = getMissingFirebaseFrontendVariables();
-
-  if (missingVariables.length > 0) {
-    throw new FirebaseError(
-      "auth/missing-client-config",
-      `Configure ${frontendEnvironmentVariables.join(", ")} para usar Firebase Authentication.`,
-    );
-  }
-
   const auth = getAuth(getConfiguredApp());
   persistenceReady ??= setPersistence(auth, browserLocalPersistence);
   await persistenceReady;
@@ -140,7 +134,22 @@ async function getConfiguredAuth() {
 }
 
 function getConfiguredApp() {
-  return getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  const existingApp = getApps()[0];
+
+  if (existingApp) {
+    return existingApp;
+  }
+
+  const missingVariables = getMissingFirebaseFrontendVariables();
+
+  if (missingVariables.length > 0) {
+    throw new FirebaseError(
+      "auth/missing-client-config",
+      `O Firebase pode estar criado no console, mas o app Next.js ainda nao recebeu: ${missingVariables.join(", ")}. Configure as variaveis publicas em .env.local ou no ambiente de deploy e reinicie o servidor.`,
+    );
+  }
+
+  return initializeApp(firebaseConfig);
 }
 
 function mapFirebaseUser(firebaseUser: FirebaseUser): User {

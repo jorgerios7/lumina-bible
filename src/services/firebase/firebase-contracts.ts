@@ -1,3 +1,5 @@
+import { getApps } from "firebase/app";
+
 export const firestoreCollections = [
   "users",
   "studies",
@@ -21,6 +23,7 @@ export const backendEnvironmentVariables = [
 ] as const;
 
 export function getFirebaseReadiness() {
+  const hasInitializedApp = getApps().length > 0;
   const values: Record<(typeof frontendEnvironmentVariables)[number], string | undefined> = {
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -29,7 +32,7 @@ export function getFirebaseReadiness() {
 
   return frontendEnvironmentVariables.map((name) => ({
     name,
-    configured: Boolean(values[name]),
+    configured: hasInitializedApp || Boolean(values[name]?.trim()),
   }));
 }
 
