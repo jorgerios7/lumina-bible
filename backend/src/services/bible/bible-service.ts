@@ -1,4 +1,4 @@
-import type { BibleBook, BibleVerse } from "@backend/types/lumina";
+import type { BibleBook, BibleVerse } from "../../types/lumina";
 
 type BibleJson = {
   book: string;

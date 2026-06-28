@@ -4,8 +4,8 @@ import type {
   Study,
   StudyBundle,
   StudyNode,
-} from "@backend/types/lumina";
-import { createSlug, makeId } from "@backend/services/studies/study-tree-engine";
+} from "../../types/lumina";
+import { createSlug, makeId } from "../studies/study-tree-engine";
 
 type TopicPreset = {
   title: string;

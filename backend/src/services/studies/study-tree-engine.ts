@@ -1,4 +1,4 @@
-import type { NodeStatus, Study, StudyNode, TreeRow } from "@backend/types/lumina";
+import type { NodeStatus, Study, StudyNode, TreeRow } from "../../types/lumina";
 
 export function makeId(prefix: string) {
   return `${prefix}-${Date.now().toString(36)}-${Math.random()
