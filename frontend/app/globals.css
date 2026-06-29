@@ -294,8 +294,8 @@ button {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
   align-items: center;
   border-bottom: 1px solid var(--lb-line);
   background: color-mix(in srgb, var(--lb-background) 94%, transparent);
@@ -322,6 +322,7 @@ button {
 .topbar-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 4px;
 }
 
@@ -1366,7 +1367,7 @@ button {
 
 @media (max-width: 420px) {
   .topbar {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .topbar-actions {
