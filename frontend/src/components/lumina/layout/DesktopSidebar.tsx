@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { Icon } from "@/src/components/common/Icon";
-import { desktopViews } from "@/src/components/lumina/navigation";
+import { desktopViews, type NavigationViewItem } from "@/src/components/lumina/navigation";
 import type { LuminaAppController } from "@/src/components/lumina/types";
-import type { NavigationViewItem } from "@/src/components/lumina/navigation";
 
 type DesktopSidebarProps = {
   controller: LuminaAppController;
@@ -20,20 +19,20 @@ export function DesktopSidebar({ controller }: DesktopSidebarProps) {
       aria-label="Navegacao principal"
       data-state={sidebarState}
     >
+      <button
+        className="sidebar-toggle"
+        onClick={() => setIsExpanded((current) => !current)}
+        aria-label={isExpanded ? "Recolher navegacao lateral" : "Expandir navegacao lateral"}
+        aria-expanded={isExpanded}
+        title={isExpanded ? "Recolher navegacao" : "Expandir navegacao"}
+        type="button"
+      >
+        <Icon name="chevron" />
+      </button>
       <div className="sidebar-header">
         <button className="brand-mark" onClick={() => controller.setView("studies")} aria-label="Lumina Bible">
           <Icon name="leaf" />
           <span className="sidebar-label">Lumina</span>
-        </button>
-        <button
-          className="sidebar-toggle"
-          onClick={() => setIsExpanded((current) => !current)}
-          aria-label={isExpanded ? "Fechar menu lateral" : "Abrir menu lateral"}
-          aria-expanded={isExpanded}
-          type="button"
-        >
-          <Icon name="chevron" />
-          <span className="sidebar-label">{isExpanded ? "Fechar" : "Abrir"}</span>
         </button>
       </div>
       <nav className="sidebar-nav">
@@ -46,21 +45,23 @@ export function DesktopSidebar({ controller }: DesktopSidebarProps) {
           />
         ))}
       </nav>
-      <button className="sidebar-item" onClick={() => controller.setView("settings")}>
-        <Icon name="settings" />
-        <span className="sidebar-label">Ajustes</span>
-      </button>
-      <button
-        className="sidebar-user"
-        onClick={() => controller.setView("profile")}
-        aria-label="Abrir perfil do usuario"
-      >
-        <Icon name="user" />
-        <span className="sidebar-user-copy">
-          <strong>{controller.state.user?.name}</strong>
-          Ver perfil
-        </span>
-      </button>
+      <div className="sidebar-footer">
+        <button className="sidebar-item" onClick={() => controller.setView("settings")}>
+          <Icon name="settings" />
+          <span className="sidebar-label">Ajustes</span>
+        </button>
+        <button
+          className="sidebar-user"
+          onClick={() => controller.setView("profile")}
+          aria-label="Abrir perfil do usuario"
+        >
+          <Icon name="user" />
+          <span className="sidebar-user-copy">
+            <strong>{controller.state.user?.name}</strong>
+            Ver perfil
+          </span>
+        </button>
+      </div>
     </aside>
   );
 }

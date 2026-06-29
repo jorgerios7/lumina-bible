@@ -367,12 +367,20 @@ button {
 }
 
 .sidebar-nav {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+  min-height: 0;
 }
 
 .sidebar-header {
   display: grid;
+  flex: 0 0 auto;
+}
+
+.sidebar-footer {
+  display: grid;
+  flex: 0 0 auto;
   gap: 10px;
 }
 
@@ -383,23 +391,23 @@ button {
 }
 
 .sidebar-toggle {
-  min-height: 44px;
+  position: absolute;
+  top: 22px;
+  right: -15px;
+  z-index: 2;
+  width: 30px;
+  height: 52px;
   border: 1px solid var(--lb-line);
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 999px;
+  background: var(--lb-surface);
   color: var(--lb-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 12px;
-  font-size: 13px;
-  font-weight: 700;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--lb-shadow);
 }
 
 .sidebar-toggle svg {
-  flex: 0 0 auto;
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
   transition: transform 160ms ease;
 }
 
@@ -412,7 +420,7 @@ button {
 }
 
 .sidebar-item {
-  min-height: 62px;
+  min-height: 48px;
   border: 0;
   border-radius: 8px;
   background: transparent;
@@ -1248,12 +1256,30 @@ button {
     display: flex;
     width: 224px;
     height: 100vh;
+    max-height: 100vh;
     flex-direction: column;
-    gap: 28px;
+    gap: clamp(12px, 1.8vh, 18px);
     border-right: 1px solid var(--lb-line);
     background: var(--lb-surface);
-    padding: 18px 10px;
+    overflow: visible;
+    padding: clamp(12px, 1.8vh, 18px) 10px;
     transition: width 160ms ease;
+  }
+
+  .desktop-sidebar .sidebar-nav {
+    flex: 1 1 auto;
+    gap: clamp(6px, 1vh, 10px);
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  .desktop-sidebar .sidebar-footer {
+    gap: clamp(6px, 1vh, 10px);
+  }
+
+  .desktop-sidebar .sidebar-item {
+    min-height: clamp(44px, 6vh, 56px);
   }
 
   .desktop-sidebar.collapsed {
@@ -1267,7 +1293,6 @@ button {
 
   .desktop-sidebar.collapsed .brand-mark,
   .desktop-sidebar.collapsed .sidebar-item,
-  .desktop-sidebar.collapsed .sidebar-toggle,
   .desktop-sidebar.collapsed .sidebar-user {
     justify-content: center;
     padding-right: 0;
@@ -1275,7 +1300,7 @@ button {
   }
 
   .desktop-sidebar.collapsed .sidebar-toggle svg {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
   }
 
   .desktop-sidebar.expanded .brand-mark {
