@@ -1,4 +1,4 @@
-import { Icon } from "@/src/components/common/Icon";
+import { NotesGrid } from "@/src/components/lumina/views/notes/NotesGrid";
 import type { Note } from "@backend/types/lumina";
 
 export function NotesView({
@@ -18,23 +18,7 @@ export function NotesView({
       {notes.length === 0 ? (
         <p className="muted">Nenhuma anotacao encontrada.</p>
       ) : (
-        <div className="cards-grid">
-          {notes.map((note) => (
-            <article className="note-card" key={note.id}>
-              <div className="inline-between">
-                <strong>{note.title}</strong>
-                <button className="icon-button" onClick={() => onDeleteNote(note.id)} aria-label="Excluir anotacao">
-                  <Icon name="trash" />
-                </button>
-              </div>
-              <textarea
-                className="textarea-field"
-                value={note.content}
-                onChange={(event) => onUpdateNote(note.id, event.target.value)}
-              />
-            </article>
-          ))}
-        </div>
+        <NotesGrid notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} />
       )}
     </div>
   );

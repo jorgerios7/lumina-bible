@@ -1,4 +1,4 @@
-import { Icon } from "@/src/components/common/Icon";
+import { FavoritesGrid } from "@/src/components/lumina/views/favorites/FavoritesGrid";
 import type { Favorite } from "@backend/types/lumina";
 
 export function FavoritesView({
@@ -16,15 +16,7 @@ export function FavoritesView({
       {favorites.length === 0 ? (
         <p className="muted">Nenhum favorito encontrado.</p>
       ) : (
-        <div className="cards-grid">
-          {favorites.map((favorite) => (
-            <button className="favorite-card" key={favorite.id} onClick={() => onOpenFavorite(favorite)}>
-              <Icon name="star" />
-              <h3>{favorite.title}</h3>
-              <p className="muted">{favorite.type}</p>
-            </button>
-          ))}
-        </div>
+        <FavoritesGrid favorites={favorites} onOpenFavorite={onOpenFavorite} />
       )}
     </div>
   );
