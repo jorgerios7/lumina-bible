@@ -107,6 +107,14 @@ export const ICON_PATHS = {
       <path d="M4 17h16" />
     </>
   ),
+  panel: (
+    <>
+      <rect x="4" y="5" width="16" height="14" rx="2" />
+      <path d="M9 5v14" />
+      <path d="M12 9h5" />
+      <path d="M12 13h5" />
+    </>
+  ),
   close: (
     <>
       <path d="M6 6l12 12" />

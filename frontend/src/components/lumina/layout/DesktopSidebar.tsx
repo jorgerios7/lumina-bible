@@ -19,20 +19,20 @@ export function DesktopSidebar({ controller }: DesktopSidebarProps) {
       aria-label="Navegacao principal"
       data-state={sidebarState}
     >
-      <button
-        className="sidebar-toggle"
-        onClick={() => setIsExpanded((current) => !current)}
-        aria-label={isExpanded ? "Recolher navegacao lateral" : "Expandir navegacao lateral"}
-        aria-expanded={isExpanded}
-        title={isExpanded ? "Recolher navegacao" : "Expandir navegacao"}
-        type="button"
-      >
-        <Icon name="chevron" />
-      </button>
       <div className="sidebar-header">
         <button className="brand-mark" onClick={() => controller.setView("studies")} aria-label="Lumina Bible">
           <Icon name="leaf" />
           <span className="sidebar-label">Lumina</span>
+        </button>
+        <button
+          className="sidebar-toggle"
+          onClick={() => setIsExpanded((current) => !current)}
+          aria-label={isExpanded ? "Recolher navegacao lateral" : "Expandir navegacao lateral"}
+          aria-expanded={isExpanded}
+          title={isExpanded ? "Recolher navegacao" : "Expandir navegacao"}
+          type="button"
+        >
+          <Icon name="panel" />
         </button>
       </div>
       <nav className="sidebar-nav">
