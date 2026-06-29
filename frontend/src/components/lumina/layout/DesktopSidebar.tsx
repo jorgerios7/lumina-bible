@@ -1,41 +1,81 @@
+"use client";
+
+import { useState } from "react";
 import { Icon } from "@/src/components/common/Icon";
 import { desktopViews } from "@/src/components/lumina/navigation";
 import type { LuminaAppController } from "@/src/components/lumina/types";
+import type { NavigationViewItem } from "@/src/components/lumina/navigation";
 
 type DesktopSidebarProps = {
   controller: LuminaAppController;
 };
 
 export function DesktopSidebar({ controller }: DesktopSidebarProps) {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const sidebarState = isExpanded ? "expanded" : "collapsed";
+
   return (
-    <aside className="desktop-sidebar" aria-label="Navegacao principal">
-      <button className="brand-mark" onClick={() => controller.setView("studies")} aria-label="Lumina Bible">
-        <Icon name="leaf" />
-      </button>
+    <aside
+      className={`desktop-sidebar ${sidebarState}`}
+      aria-label="Navegacao principal"
+      data-state={sidebarState}
+    >
+      <div className="sidebar-header">
+        <button className="brand-mark" onClick={() => controller.setView("studies")} aria-label="Lumina Bible">
+          <Icon name="leaf" />
+          <span className="sidebar-label">Lumina</span>
+        </button>
+        <button
+          className="sidebar-toggle"
+          onClick={() => setIsExpanded((current) => !current)}
+          aria-label={isExpanded ? "Fechar menu lateral" : "Abrir menu lateral"}
+          aria-expanded={isExpanded}
+          type="button"
+        >
+          <Icon name="chevron" />
+          <span className="sidebar-label">{isExpanded ? "Fechar" : "Abrir"}</span>
+        </button>
+      </div>
       <nav className="sidebar-nav">
         {desktopViews.map((item, index) => (
-          <button
-            className={`sidebar-item ${controller.isViewActive(item.view) ? "active" : ""}`}
+          <SidebarNavigationButton
+            item={item}
             key={`${item.label}-${index}`}
+            isActive={controller.isViewActive(item.view)}
             onClick={() => controller.handleDesktopView(item)}
-          >
-            <Icon name={item.icon} />
-            <span>{item.label}</span>
-          </button>
+          />
         ))}
       </nav>
       <button className="sidebar-item" onClick={() => controller.setView("settings")}>
         <Icon name="settings" />
-        <span>Ajustes</span>
+        <span className="sidebar-label">Ajustes</span>
       </button>
       <button
         className="sidebar-user"
         onClick={() => controller.setView("profile")}
         aria-label="Abrir perfil do usuario"
       >
-        <strong>{controller.state.user?.name}</strong>
-        Ver perfil
+        <Icon name="user" />
+        <span className="sidebar-user-copy">
+          <strong>{controller.state.user?.name}</strong>
+          Ver perfil
+        </span>
       </button>
     </aside>
+  );
+}
+
+type SidebarNavigationButtonProps = {
+  item: NavigationViewItem;
+  isActive: boolean;
+  onClick: () => void;
+};
+
+function SidebarNavigationButton({ item, isActive, onClick }: SidebarNavigationButtonProps) {
+  return (
+    <button className={`sidebar-item ${isActive ? "active" : ""}`} onClick={onClick}>
+      <Icon name={item.icon} />
+      <span className="sidebar-label">{item.label}</span>
+    </button>
   );
 }
