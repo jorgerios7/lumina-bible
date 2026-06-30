@@ -698,7 +698,6 @@ button {
   position: relative;
   display: grid;
   gap: 10px;
-  padding-bottom: 70px;
 }
 
 .tree-layout {
@@ -713,13 +712,7 @@ button {
 }
 
 .tree-view-shell > .legend {
-  position: sticky;
-  bottom: 84px;
-  z-index: 12;
-  justify-self: center;
-  width: min(100%, 720px);
-  box-shadow: var(--lb-shadow);
-  backdrop-filter: blur(14px);
+  width: 100%;
 }
 
 .tree-hero {
@@ -1479,10 +1472,6 @@ button {
   .tree-layout.panel-open {
     grid-template-columns: minmax(0, 1fr) 320px;
     align-items: start;
-  }
-
-  .tree-view-shell > .legend {
-    bottom: 22px;
   }
 
   .node-detail-panel {
