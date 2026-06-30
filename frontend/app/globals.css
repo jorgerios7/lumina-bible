@@ -371,6 +371,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 0 0 auto;
   min-height: 0;
 }
 
@@ -386,6 +387,7 @@ button {
   display: grid;
   flex: 0 0 auto;
   gap: 10px;
+  margin-top: auto;
 }
 
 .desktop-sidebar .brand-mark {
@@ -441,7 +443,6 @@ button {
 }
 
 .sidebar-user {
-  margin-top: auto;
   border: 1px solid transparent;
   border-radius: 8px;
   background: transparent;
@@ -1264,9 +1265,9 @@ button {
   }
 
   .desktop-sidebar .sidebar-nav {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     gap: clamp(6px, 1vh, 10px);
-    justify-content: center;
+    justify-content: flex-start;
     overflow-y: auto;
     scrollbar-width: thin;
   }
