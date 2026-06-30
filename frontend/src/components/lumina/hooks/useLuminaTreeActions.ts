@@ -4,26 +4,25 @@ import type { LuminaState, Study } from "@backend/types/lumina";
 
 type UseLuminaTreeActionsProps = {
   activeStudy?: Study;
+  setNodePanelOpen: Dispatch<SetStateAction<boolean>>;
   setPanelTab: Dispatch<SetStateAction<NodePanelTab>>;
   setState: Dispatch<SetStateAction<LuminaState>>;
 };
 
 export function useLuminaTreeActions({
   activeStudy,
+  setNodePanelOpen,
   setPanelTab,
   setState,
 }: UseLuminaTreeActionsProps) {
   function handleSelectNode(nodeId: string) {
     setState((prev) => ({ ...prev, activeNodeId: nodeId }));
+    setNodePanelOpen(true);
     setPanelTab("summary");
   }
 
   function handleClosePanel() {
-    if (!activeStudy) {
-      return;
-    }
-
-    setState((prev) => ({ ...prev, activeNodeId: activeStudy.rootNodeId }));
+    setNodePanelOpen(false);
   }
 
   function toggleExpanded(nodeId: string) {

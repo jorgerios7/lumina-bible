@@ -32,6 +32,7 @@ export type LuminaAppController = LuminaDerivedState & {
   chatQuery: string;
   favoritesQuery: string;
   isDark: boolean;
+  isNodePanelOpen: boolean;
   noteDraft: string;
   notesQuery: string;
   panelTab: NodePanelTab;
@@ -47,6 +48,7 @@ export type LuminaAppController = LuminaDerivedState & {
   setChatDraft: Dispatch<SetStateAction<string>>;
   setChatQuery: Dispatch<SetStateAction<string>>;
   setFavoritesQuery: Dispatch<SetStateAction<string>>;
+  setNodePanelOpen: Dispatch<SetStateAction<boolean>>;
   setNoteDraft: Dispatch<SetStateAction<string>>;
   setNotesQuery: Dispatch<SetStateAction<string>>;
   setPanelTab: Dispatch<SetStateAction<NodePanelTab>>;

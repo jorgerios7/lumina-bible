@@ -90,7 +90,7 @@ button {
   display: grid;
   min-height: 100vh;
   place-items: center;
-  padding: 24px 16px;
+  padding: 18px 12px;
 }
 
 .auth-panel {
@@ -99,7 +99,7 @@ button {
   border-radius: 8px;
   background: var(--lb-surface);
   box-shadow: var(--lb-shadow);
-  padding: 24px;
+  padding: 20px;
 }
 
 .brand-mark {
@@ -183,7 +183,7 @@ button {
 .select-field,
 .textarea-field {
   width: 100%;
-  min-height: 46px;
+  min-height: 42px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
@@ -210,7 +210,7 @@ button {
 .ghost-button,
 .icon-button,
 .chip-button {
-  min-height: 42px;
+  min-height: 38px;
   border: 0;
   border-radius: 8px;
   display: inline-flex;
@@ -244,7 +244,7 @@ button {
 }
 
 .icon-button {
-  width: 42px;
+  width: 38px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--lb-foreground);
@@ -276,7 +276,7 @@ button {
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .app-shell {
@@ -300,7 +300,7 @@ button {
   border-bottom: 1px solid var(--lb-line);
   background: color-mix(in srgb, var(--lb-background) 94%, transparent);
   backdrop-filter: blur(16px);
-  padding: 12px 16px;
+  padding: 10px 14px;
 }
 
 .topbar-title {
@@ -334,7 +334,7 @@ button {
 .main-area {
   width: min(100%, 1220px);
   margin: 0 auto;
-  padding: 16px 16px 92px;
+  padding: 12px 12px 84px;
 }
 
 .bottom-nav {
@@ -499,7 +499,7 @@ button {
 
 .view-stack {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .section-header {
@@ -507,7 +507,7 @@ button {
   flex-wrap: wrap;
   align-items: end;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 
 .section-header h2,
@@ -531,12 +531,12 @@ button {
 
 .home-prompt {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
   box-shadow: var(--lb-shadow);
-  padding: 18px;
+  padding: 14px;
 }
 
 .prompt-row {
@@ -549,7 +549,7 @@ button {
 .metrics-grid,
 .settings-grid {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .topic-grid {
@@ -585,12 +585,12 @@ button {
 .favorite-card,
 .verse-card,
 .chat-bubble {
-  padding: 16px;
+  padding: 14px;
 }
 
 .study-card {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .study-card-header,
@@ -694,9 +694,16 @@ button {
   padding-left: 42px;
 }
 
+.tree-view-shell {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding-bottom: 70px;
+}
+
 .tree-layout {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .tree-main {
@@ -705,8 +712,7 @@ button {
   min-width: 0;
 }
 
-.tree-layout > .legend {
-  grid-column: 1 / -1;
+.tree-view-shell > .legend {
   position: sticky;
   bottom: 84px;
   z-index: 12;
@@ -719,12 +725,12 @@ button {
 .tree-hero {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
-  padding: 16px;
+  padding: 14px;
 }
 
 .tree-hero p {
@@ -792,20 +798,20 @@ button {
 .tree-list {
   position: relative;
   display: grid;
-  gap: 10px;
-  padding-left: 10px;
+  gap: 8px;
+  padding-left: 8px;
 }
 
 .tree-row {
   position: relative;
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .tree-row::before {
   position: absolute;
   top: 0;
-  bottom: -10px;
+  bottom: -8px;
   left: calc(var(--depth) * 30px + 11px);
   width: 1px;
   content: "";
@@ -816,14 +822,14 @@ button {
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  min-height: 74px;
+  min-height: 66px;
   margin-left: calc(var(--depth) * 30px);
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
-  padding: 12px;
+  padding: 10px;
   text-align: left;
 }
 
@@ -879,7 +885,7 @@ button {
   max-height: min(78vh, 680px);
   overflow: auto;
   border-radius: 8px 8px 0 0;
-  padding: 16px;
+  padding: 14px;
 }
 
 .node-detail-panel::before {
@@ -1137,17 +1143,17 @@ button {
 
 .profile-screen {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .profile-hero {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
   box-shadow: var(--lb-shadow);
-  padding: 18px;
+  padding: 14px;
 }
 
 .profile-avatar {
@@ -1212,17 +1218,17 @@ button {
 
 .profile-content-grid {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .profile-panel {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
   box-shadow: var(--lb-shadow);
-  padding: 16px;
+  padding: 14px;
 }
 
 .profile-progress-panel p {
@@ -1246,7 +1252,7 @@ button {
 
 .profile-shortcut-list button,
 .profile-study-list button {
-  min-height: 56px;
+  min-height: 50px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
@@ -1255,7 +1261,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px;
+  padding: 10px;
   text-align: left;
 }
 
@@ -1462,27 +1468,27 @@ button {
 
   .topbar {
     grid-column: 2;
-    padding: 14px 22px;
+    padding: 12px 18px;
   }
 
   .main-area {
     grid-column: 2;
-    padding: 22px;
+    padding: 16px;
   }
 
-  .tree-layout {
+  .tree-layout.panel-open {
     grid-template-columns: minmax(0, 1fr) 320px;
     align-items: start;
   }
 
-  .tree-layout > .legend {
+  .tree-view-shell > .legend {
     bottom: 22px;
   }
 
   .node-detail-panel {
     position: sticky;
-    top: 88px;
-    max-height: calc(100vh - 110px);
+    top: 76px;
+    max-height: calc(100vh - 96px);
     border-radius: 8px;
   }
 

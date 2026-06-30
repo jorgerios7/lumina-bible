@@ -12,6 +12,7 @@ export function TreeView({
   activeNode,
   breadcrumb,
   expandedNodeIds,
+  isNodePanelOpen,
   nodes,
   query,
   panelTab,
@@ -37,38 +38,43 @@ export function TreeView({
   const nodeNotes = notes.filter((note) => note.nodeId === activeNode.id);
 
   return (
-    <div className="tree-layout">
-      <section className="tree-main">
-        <div className="tree-topline">
-          <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
-          <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
-        </div>
-        <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
-        <TreeRows
-          activeNodeId={activeNode.id}
-          rows={rows}
-          onFavoriteNode={onFavoriteNode}
-          onSelectNode={onSelectNode}
-          onToggleExpanded={onToggleExpanded}
-        />
-      </section>
+    <div className="tree-view-shell">
+      <div className={`tree-layout ${isNodePanelOpen ? "panel-open" : ""}`}>
+        <section className="tree-main">
+          <div className="tree-topline">
+            <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
+            <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
+          </div>
+          <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
+          <TreeRows
+            activeNodeId={activeNode.id}
+            rows={rows}
+            onFavoriteNode={onFavoriteNode}
+            onSelectNode={onSelectNode}
+            onToggleExpanded={onToggleExpanded}
+          />
+        </section>
 
-      <NodePanel
-        node={activeNode}
-        nodeNotes={nodeNotes}
-        noteDraft={noteDraft}
-        panelTab={panelTab}
-        onAddNote={onAddNote}
-        onAskFromSuggestion={onAskFromSuggestion}
-        onChangeNoteDraft={onChangeNoteDraft}
-        onChangePanelTab={onChangePanelTab}
-        onClosePanel={onClosePanel}
-        onFavoriteNode={onFavoriteNode}
-        onOpenBible={onOpenBible}
-        onOpenChat={onOpenChat}
-        onOpenFocus={onOpenFocus}
-        onShare={onShare}
-      />
+        {isNodePanelOpen && (
+          <NodePanel
+            node={activeNode}
+            nodeNotes={nodeNotes}
+            noteDraft={noteDraft}
+            panelTab={panelTab}
+            onAddNote={onAddNote}
+            onAskFromSuggestion={onAskFromSuggestion}
+            onChangeNoteDraft={onChangeNoteDraft}
+            onChangePanelTab={onChangePanelTab}
+            onClosePanel={onClosePanel}
+            onFavoriteNode={onFavoriteNode}
+            onOpenBible={onOpenBible}
+            onOpenChat={onOpenChat}
+            onOpenFocus={onOpenFocus}
+            onShare={onShare}
+          />
+        )}
+      </div>
+
       <TreeLegend />
     </div>
   );

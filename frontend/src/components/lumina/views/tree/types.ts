@@ -6,6 +6,7 @@ export type TreeViewProps = {
   activeNode: StudyNode;
   breadcrumb: StudyNode[];
   expandedNodeIds: string[];
+  isNodePanelOpen: boolean;
   nodes: StudyNode[];
   query: string;
   panelTab: NodePanelTab;

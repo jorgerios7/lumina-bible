@@ -42,6 +42,7 @@ export function useLuminaAppController(initialView: AppView): LuminaAppControlle
   const [bibleBook, setBibleBook] = useState<BibleBookData | null>(null);
   const [bibleQuery, setBibleQuery] = useState("");
   const [panelTab, setPanelTab] = useState<NodePanelTab>("summary");
+  const [isNodePanelOpen, setNodePanelOpen] = useState(false);
 
   useLuminaPersistence({ hydrated, state, setHydrated, setState });
   useLuminaAuthWatcher({ setAuthReady, setState });
@@ -61,6 +62,7 @@ export function useLuminaAppController(initialView: AppView): LuminaAppControlle
   });
   const treeActions = useLuminaTreeActions({
     activeStudy: derived.activeStudy,
+    setNodePanelOpen,
     setPanelTab,
     setState,
   });
@@ -142,6 +144,8 @@ export function useLuminaAppController(initialView: AppView): LuminaAppControlle
     setBibleQuery,
     panelTab,
     setPanelTab,
+    isNodePanelOpen,
+    setNodePanelOpen,
     isDark,
     ...derived,
     ...authActions,

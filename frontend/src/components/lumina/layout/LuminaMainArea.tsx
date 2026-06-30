@@ -35,6 +35,7 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
           activeStudy={controller.activeStudy}
           breadcrumb={controller.breadcrumb}
           expandedNodeIds={controller.state.expandedNodeIds}
+          isNodePanelOpen={controller.isNodePanelOpen}
           nodes={controller.state.nodes}
           noteDraft={controller.noteDraft}
           panelTab={controller.panelTab}
