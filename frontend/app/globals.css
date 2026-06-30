@@ -969,28 +969,39 @@ button {
 
 .verse-list {
   display: grid;
-  gap: 10px;
+  gap: 2px;
 }
 
 .verse-row {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 12px;
-  border: 1px solid var(--lb-line);
-  border-radius: 8px;
-  background: var(--lb-surface);
-  padding: 14px;
+  gap: 9px;
+  border-radius: 6px;
+  background: transparent;
+  padding: 4px 36px 4px 0;
+  transition: background 140ms ease;
+}
+
+.verse-row:hover,
+.verse-row:focus-visible,
+.verse-row.selected {
+  background: color-mix(in srgb, var(--lb-primary-soft) 28%, transparent);
+  outline: none;
 }
 
 .verse-number {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border-radius: 8px;
-  background: var(--lb-primary-soft);
-  color: var(--lb-primary);
-  font-weight: 800;
+  min-width: 24px;
+  padding-top: 0.32em;
+  color: var(--lb-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: right;
+}
+
+.verse-copy {
+  min-width: 0;
 }
 
 .verse-text {
@@ -1000,10 +1011,71 @@ button {
 }
 
 .verse-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 2;
+}
+
+.verse-menu-trigger {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--lb-muted);
+  display: grid;
+  opacity: 0;
+  place-items: center;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    opacity 140ms ease;
+}
+
+.verse-row:hover .verse-menu-trigger,
+.verse-row:focus-within .verse-menu-trigger,
+.verse-row.selected .verse-menu-trigger {
+  opacity: 1;
+}
+
+.verse-menu-trigger:hover,
+.verse-menu-trigger:focus-visible {
+  background: var(--lb-surface);
+  color: var(--lb-primary);
+  outline: none;
+}
+
+.verse-action-menu {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  min-width: 180px;
+  border: 1px solid var(--lb-line);
+  border-radius: 8px;
+  background: var(--lb-surface);
+  box-shadow: var(--lb-shadow);
+  display: grid;
+  padding: 6px;
+}
+
+.verse-action-item {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--lb-foreground);
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.verse-action-item:hover,
+.verse-action-item:focus-visible {
+  background: var(--lb-primary-soft);
+  color: var(--lb-primary);
+  outline: none;
 }
 
 .profile-screen {
