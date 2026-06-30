@@ -702,6 +702,18 @@ button {
 .tree-main {
   display: grid;
   gap: 14px;
+  min-width: 0;
+}
+
+.tree-layout > .legend {
+  grid-column: 1 / -1;
+  position: sticky;
+  bottom: 84px;
+  z-index: 12;
+  justify-self: center;
+  width: min(100%, 720px);
+  box-shadow: var(--lb-shadow);
+  backdrop-filter: blur(14px);
 }
 
 .tree-hero {
@@ -1461,6 +1473,10 @@ button {
   .tree-layout {
     grid-template-columns: minmax(0, 1fr) 320px;
     align-items: start;
+  }
+
+  .tree-layout > .legend {
+    bottom: 22px;
   }
 
   .node-detail-panel {

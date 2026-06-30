@@ -44,7 +44,6 @@ export function TreeView({
           <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
         </div>
         <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
-        <TreeLegend />
         <TreeRows
           activeNodeId={activeNode.id}
           rows={rows}
@@ -70,6 +69,7 @@ export function TreeView({
         onOpenFocus={onOpenFocus}
         onShare={onShare}
       />
+      <TreeLegend />
     </div>
   );
 }
