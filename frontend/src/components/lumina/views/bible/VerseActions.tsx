@@ -4,8 +4,8 @@ import type { BibleVerse } from "@backend/types/lumina";
 import type { VerseActionHandlers } from "@/src/components/lumina/views/bible/types";
 
 type VerseActionsProps = VerseActionHandlers & {
+  isFavorite: boolean;
   isMenuOpen: boolean;
-  isSelected: boolean;
   menuId: string;
   verse: BibleVerse;
   onCloseMenu: () => void;
@@ -13,8 +13,8 @@ type VerseActionsProps = VerseActionHandlers & {
 };
 
 export function VerseActions({
+  isFavorite,
   isMenuOpen,
-  isSelected,
   menuId,
   verse,
   onCreateBranch,
@@ -33,8 +33,8 @@ export function VerseActions({
     <div className="verse-actions" onClick={(event) => event.stopPropagation()}>
       <button
         className="verse-menu-trigger"
-        aria-controls={isSelected ? menuId : undefined}
-        aria-expanded={isSelected && isMenuOpen}
+        aria-controls={isMenuOpen ? menuId : undefined}
+        aria-expanded={isMenuOpen}
         aria-haspopup="menu"
         aria-label={`Abrir acoes de ${verse.bookName} ${verse.chapter}:${verse.verse}`}
         onClick={handleTriggerClick}
@@ -42,7 +42,7 @@ export function VerseActions({
       >
         <Icon name="menu" />
       </button>
-      {isSelected && isMenuOpen && (
+      {isMenuOpen && (
         <div className="verse-action-menu" id={menuId} role="menu">
           <VerseActionButton
             icon="chat"
@@ -62,7 +62,7 @@ export function VerseActions({
           />
           <VerseActionButton
             icon="star"
-            label="Favoritar"
+            label={isFavorite ? "Remover favorito" : "Favoritar"}
             onClick={() => {
               onFavoriteVerse(verse);
               onCloseMenu();

@@ -984,10 +984,20 @@ button {
 }
 
 .verse-row:hover,
-.verse-row:focus-visible,
-.verse-row.selected {
+.verse-row:focus-within,
+.verse-row.menu-open {
   background: color-mix(in srgb, var(--lb-primary-soft) 28%, transparent);
   outline: none;
+}
+
+.verse-row.favorite {
+  background: color-mix(in srgb, var(--lb-gold) 10%, transparent);
+}
+
+.verse-row.favorite:hover,
+.verse-row.favorite:focus-within,
+.verse-row.favorite.menu-open {
+  background: color-mix(in srgb, var(--lb-gold) 18%, transparent);
 }
 
 .verse-number {
@@ -1008,6 +1018,20 @@ button {
   margin: 0;
   font-size: var(--reader-size);
   line-height: 1.72;
+}
+
+.verse-favorite-mark {
+  display: inline-flex;
+  margin-left: 7px;
+  color: var(--lb-gold);
+  vertical-align: -0.12em;
+}
+
+.verse-favorite-mark svg {
+  width: 0.9em;
+  height: 0.9em;
+  fill: currentColor;
+  stroke-width: 1.7;
 }
 
 .verse-actions {
@@ -1035,7 +1059,7 @@ button {
 
 .verse-row:hover .verse-menu-trigger,
 .verse-row:focus-within .verse-menu-trigger,
-.verse-row.selected .verse-menu-trigger {
+.verse-row.menu-open .verse-menu-trigger {
   opacity: 1;
 }
 

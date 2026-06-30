@@ -72,6 +72,7 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
         <BibleView
           activeStudy={controller.activeStudy}
           bibleBook={controller.bibleBook}
+          favorites={controller.state.favorites}
           query={controller.bibleQuery}
           selectedBookId={controller.selectedBookId}
           selectedChapter={controller.selectedChapter}

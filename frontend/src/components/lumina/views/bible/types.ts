@@ -1,9 +1,10 @@
 import type { BibleBookData } from "@backend/services/bible/bible-service";
-import type { BibleVerse, Study } from "@backend/types/lumina";
+import type { BibleVerse, Favorite, Study } from "@backend/types/lumina";
 
 export type BibleViewProps = {
   activeStudy?: Study;
   bibleBook: BibleBookData | null;
+  favorites: Favorite[];
   selectedBookId: string;
   selectedChapter: number;
   query: string;

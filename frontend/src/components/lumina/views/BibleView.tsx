@@ -8,6 +8,7 @@ import type { BibleViewProps } from "@/src/components/lumina/views/bible/types";
 export function BibleView({
   activeStudy,
   bibleBook,
+  favorites,
   selectedBookId,
   selectedChapter,
   query,
@@ -21,6 +22,11 @@ export function BibleView({
 }: BibleViewProps) {
   const verses = bibleBook?.versesByChapter[selectedChapter] ?? [];
   const filteredVerses = filterVerses(verses, query);
+  const favoriteVerseIds = new Set(
+    favorites
+      .filter((favorite) => favorite.type === "verse")
+      .map((favorite) => favorite.id.replace("favorite-verse-", "")),
+  );
 
   return (
     <div className="bible-layout">
@@ -34,6 +40,7 @@ export function BibleView({
       />
       <BibleSearch query={query} onChangeQuery={onChangeQuery} />
       <VerseList
+        favoriteVerseIds={favoriteVerseIds}
         verses={filteredVerses}
         onCreateBranch={onCreateBranch}
         onExplainVerse={onExplainVerse}
