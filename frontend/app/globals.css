@@ -870,14 +870,11 @@ button {
 }
 
 .node-detail-panel {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 40;
-  max-height: min(78vh, 680px);
-  overflow: auto;
-  border-radius: 8px 8px 0 0;
+  position: relative;
+  z-index: 1;
+  max-height: none;
+  overflow: visible;
+  border-radius: 8px;
   background:
     radial-gradient(circle at 0 0, rgba(125, 170, 146, 0.12), transparent 42%),
     #111615;
@@ -887,18 +884,6 @@ button {
   gap: 16px;
   padding: 12px 16px 14px;
   box-shadow: 0 22px 54px rgba(0, 0, 0, 0.38);
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.node-detail-panel::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.node-detail-panel::-webkit-scrollbar-thumb,
-.node-detail-panel::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 .node-detail-panel::before {
@@ -1737,10 +1722,10 @@ button {
   }
 
   .node-detail-panel {
-    position: sticky;
-    top: 76px;
-    z-index: 10;
-    max-height: calc(100vh - 96px);
+    position: relative;
+    top: auto;
+    z-index: 1;
+    max-height: none;
     border-radius: 8px;
   }
 
