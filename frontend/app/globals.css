@@ -657,6 +657,21 @@ button {
   color: var(--lb-primary);
 }
 
+.tree-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.tree-topline .breadcrumb {
+  min-width: 0;
+}
+
+.tree-topline .tree-toolbar {
+  justify-self: end;
+}
+
 .tree-toolbar,
 .search-row {
   display: grid;
@@ -1333,7 +1348,6 @@ button {
 @media (min-width: 680px) {
   .prompt-row,
   .search-row,
-  .tree-toolbar,
   .bible-controls {
     grid-template-columns: 1fr auto;
     align-items: center;
@@ -1491,6 +1505,14 @@ button {
 
   .topbar-actions {
     justify-content: flex-end;
+  }
+
+  .tree-topline {
+    grid-template-columns: 1fr;
+  }
+
+  .tree-topline .tree-toolbar {
+    justify-self: start;
   }
 
   .tree-hero {

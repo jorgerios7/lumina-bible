@@ -39,8 +39,10 @@ export function TreeView({
   return (
     <div className="tree-layout">
       <section className="tree-main">
-        <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
-        <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
+        <div className="tree-topline">
+          <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
+          <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
+        </div>
         <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
         <TreeLegend />
         <TreeRows
