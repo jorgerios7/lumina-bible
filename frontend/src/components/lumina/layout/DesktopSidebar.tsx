@@ -20,10 +20,9 @@ export function DesktopSidebar({ controller }: DesktopSidebarProps) {
       data-state={sidebarState}
     >
       <div className="sidebar-header">
-        <button className="brand-mark" onClick={() => controller.setView("studies")} aria-label="Lumina Bible">
-          <Icon name="leaf" />
+        <h1 className="brand-mark" aria-label="Lumina Bible">
           <span className="sidebar-label">Lumina</span>
-        </button>
+        </h1>
         <button
           className="sidebar-toggle"
           onClick={() => setIsExpanded((current) => !current)}
