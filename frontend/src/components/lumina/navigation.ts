@@ -11,10 +11,8 @@ export const primaryViews: NavigationViewItem[] = [
 
 export const desktopViews: NavigationViewItem[] = [
   { view: "studies", label: "Estudos", icon: "home" },
-  { view: "studies", label: "Novo", icon: "plus" },
   { view: "tree", label: "Arvore", icon: "tree" },
   { view: "bible", label: "Biblia", icon: "book" },
-  { view: "studies", label: "Recentes", icon: "clock" },
   { view: "favorites", label: "Favoritos", icon: "star" },
   { view: "notes", label: "Anotacoes", icon: "note" },
 ];

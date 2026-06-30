@@ -11,7 +11,7 @@ export function Topbar({ controller }: TopbarProps) {
 
   return (
     <header className="topbar">
-      <TopbarTitle activeStudyTitle={activeStudyTitle} view={controller.view} />
+      <TopbarTitle view={controller.view} />
       <TopbarActions
         activeStudyTitle={activeStudyTitle}
         isDark={controller.isDark}
