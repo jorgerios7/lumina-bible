@@ -1,9 +1,13 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { BibleControls } from "@/src/components/lumina/views/bible/BibleControls";
 import { BibleHeader } from "@/src/components/lumina/views/bible/BibleHeader";
-import { BibleSearch } from "@/src/components/lumina/views/bible/BibleSearch";
 import { VerseList } from "@/src/components/lumina/views/bible/VerseList";
-import { filterVerses } from "@backend/services/bible/bible-service";
+import { filterVerses, getAllBibleVerses } from "@backend/services/bible/bible-service";
+import { normalizeSearchText } from "@/src/components/lumina/utils/search";
 import type { BibleViewProps } from "@/src/components/lumina/views/bible/types";
+import type { BibleVerse } from "@backend/types/lumina";
 
 export function BibleView({
   activeStudy,
@@ -14,19 +18,46 @@ export function BibleView({
   query,
   onChangeBook,
   onChangeChapter,
-  onChangeQuery,
   onCreateBranch,
   onExplainVerse,
   onFavoriteVerse,
   onShareVerse,
 }: BibleViewProps) {
+  const [allBibleVerses, setAllBibleVerses] = useState<BibleVerse[] | null>(null);
   const verses = bibleBook?.versesByChapter[selectedChapter] ?? [];
-  const filteredVerses = filterVerses(verses, query);
+  const isGlobalSearch = normalizeSearchText(query).length > 0;
+  const isGlobalSearchLoading = isGlobalSearch && allBibleVerses === null;
+  const searchSourceVerses = isGlobalSearch ? (allBibleVerses ?? []) : verses;
+  const filteredVerses = filterVerses(searchSourceVerses, query);
   const favoriteVerseIds = new Set(
     favorites
       .filter((favorite) => favorite.type === "verse")
       .map((favorite) => favorite.id.replace("favorite-verse-", "")),
   );
+
+  useEffect(() => {
+    if (!isGlobalSearch || allBibleVerses) {
+      return;
+    }
+
+    let active = true;
+
+    getAllBibleVerses()
+      .then((versesList) => {
+        if (active) {
+          setAllBibleVerses(versesList);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setAllBibleVerses([]);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [allBibleVerses, isGlobalSearch]);
 
   return (
     <div className="bible-layout">
@@ -38,15 +69,19 @@ export function BibleView({
         onChangeBook={onChangeBook}
         onChangeChapter={onChangeChapter}
       />
-      <BibleSearch query={query} onChangeQuery={onChangeQuery} />
-      <VerseList
-        favoriteVerseIds={favoriteVerseIds}
-        verses={filteredVerses}
-        onCreateBranch={onCreateBranch}
-        onExplainVerse={onExplainVerse}
-        onFavoriteVerse={onFavoriteVerse}
-        onShareVerse={onShareVerse}
-      />
+      {isGlobalSearchLoading ? (
+        <p className="muted">Buscando em toda a Biblia...</p>
+      ) : (
+        <VerseList
+          favoriteVerseIds={favoriteVerseIds}
+          showReference={isGlobalSearch}
+          verses={filteredVerses}
+          onCreateBranch={onCreateBranch}
+          onExplainVerse={onExplainVerse}
+          onFavoriteVerse={onFavoriteVerse}
+          onShareVerse={onShareVerse}
+        />
+      )}
     </div>
   );
 }

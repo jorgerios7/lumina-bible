@@ -294,7 +294,7 @@ button {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, auto) minmax(180px, 560px) auto;
   gap: 16px;
   align-items: center;
   border-bottom: 1px solid var(--lb-line);
@@ -324,6 +324,11 @@ button {
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
+}
+
+.topbar-search {
+  width: min(100%, 560px);
+  justify-self: center;
 }
 
 .main-area {
@@ -1001,12 +1006,13 @@ button {
 }
 
 .verse-number {
+  max-width: 116px;
   min-width: 24px;
   padding-top: 0.32em;
   color: var(--lb-muted);
   font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.2;
   text-align: right;
 }
 
@@ -1474,12 +1480,17 @@ button {
 
 @media (max-width: 420px) {
   .topbar {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
+  }
+
+  .topbar-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
   }
 
   .topbar-actions {
-    grid-column: 1 / -1;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .tree-hero {

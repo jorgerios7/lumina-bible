@@ -29,9 +29,13 @@ export function useLuminaAppController(initialView: AppView): LuminaAppControlle
   const [authReady, setAuthReady] = useState(false);
   const [view, setView] = useState<AppView>(initialView);
   const [studyPrompt, setStudyPrompt] = useState("");
+  const [studiesQuery, setStudiesQuery] = useState("");
   const [treeSearch, setTreeSearch] = useState("");
   const [chatDraft, setChatDraft] = useState("");
+  const [chatQuery, setChatQuery] = useState("");
   const [noteDraft, setNoteDraft] = useState("");
+  const [notesQuery, setNotesQuery] = useState("");
+  const [favoritesQuery, setFavoritesQuery] = useState("");
   const [toast, setToast] = useState("");
   const [selectedBookId, setSelectedBookId] = useState("heb");
   const [selectedChapter, setSelectedChapter] = useState(11);
@@ -113,12 +117,20 @@ export function useLuminaAppController(initialView: AppView): LuminaAppControlle
     setView,
     studyPrompt,
     setStudyPrompt,
+    studiesQuery,
+    setStudiesQuery,
     treeSearch,
     setTreeSearch,
     chatDraft,
     setChatDraft,
+    chatQuery,
+    setChatQuery,
     noteDraft,
     setNoteDraft,
+    notesQuery,
+    setNotesQuery,
+    favoritesQuery,
+    setFavoritesQuery,
     toast,
     setToast,
     selectedBookId,

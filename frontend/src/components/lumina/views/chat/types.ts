@@ -4,6 +4,7 @@ export type ChatViewProps = {
   activeNode: StudyNode;
   breadcrumb: StudyNode[];
   draft: string;
+  query: string;
   messages: Message[];
   nodes: StudyNode[];
   onChangeDraft: (value: string) => void;

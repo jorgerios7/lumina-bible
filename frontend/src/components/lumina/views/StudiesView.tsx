@@ -1,6 +1,7 @@
 import { StudiesGrid } from "@/src/components/lumina/views/studies/StudiesGrid";
 import { StudyPromptPanel } from "@/src/components/lumina/views/studies/StudyPromptPanel";
 import { SuggestedTopicsPanel } from "@/src/components/lumina/views/studies/SuggestedTopicsPanel";
+import { matchesSearchQuery } from "@/src/components/lumina/utils/search";
 import type { StudiesViewProps } from "@/src/components/lumina/views/studies/types";
 
 export function StudiesView({
@@ -8,11 +9,16 @@ export function StudiesView({
   studies,
   nodes,
   prompt,
+  query,
   onPromptChange,
   onCreateStudy,
   onDeleteStudy,
   onOpenStudy,
 }: StudiesViewProps) {
+  const filteredStudies = studies.filter((study) =>
+    matchesSearchQuery(query, [study.title, study.summary, study.theme]),
+  );
+
   return (
     <div className="view-stack">
       <StudyPromptPanel
@@ -22,7 +28,7 @@ export function StudiesView({
       />
       <StudiesGrid
         activeStudy={activeStudy}
-        studies={studies}
+        studies={filteredStudies}
         nodes={nodes}
         onDeleteStudy={onDeleteStudy}
         onOpenChat={(studyId) => onOpenStudy(studyId, "chat")}

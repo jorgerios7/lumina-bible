@@ -21,7 +21,6 @@ export function TreeView({
   onAskFromSuggestion,
   onChangeNoteDraft,
   onChangePanelTab,
-  onChangeQuery,
   onClosePanel,
   onCollapseAll,
   onExpandAll,
@@ -41,12 +40,7 @@ export function TreeView({
     <div className="tree-layout">
       <section className="tree-main">
         <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
-        <TreeToolbar
-          query={query}
-          onChangeQuery={onChangeQuery}
-          onCollapseAll={onCollapseAll}
-          onExpandAll={onExpandAll}
-        />
+        <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
         <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
         <TreeLegend />
         <TreeRows

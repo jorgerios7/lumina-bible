@@ -8,12 +8,16 @@ import type { VerseActionHandlers } from "@/src/components/lumina/views/bible/ty
 
 type VerseRowProps = VerseActionHandlers & {
   isFavorite: boolean;
+  showReference?: boolean;
   verse: BibleVerse;
 };
 
-export function VerseRow({ isFavorite, verse, ...handlers }: VerseRowProps) {
+export function VerseRow({ isFavorite, showReference = false, verse, ...handlers }: VerseRowProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuId = useId();
+  const verseLabel = showReference
+    ? `${verse.bookName} ${verse.chapter}:${verse.verse}`
+    : String(verse.verse);
 
   function toggleMenu() {
     setIsMenuOpen((current) => !current);
@@ -32,7 +36,7 @@ export function VerseRow({ isFavorite, verse, ...handlers }: VerseRowProps) {
         }
       }}
     >
-      <span className="verse-number">{verse.verse}</span>
+      <span className="verse-number">{verseLabel}</span>
       <div className="verse-copy">
         <p className="verse-text">
           {verse.text}

@@ -15,7 +15,6 @@ export type TreeViewProps = {
   onAskFromSuggestion: (question: string) => void;
   onChangeNoteDraft: (value: string) => void;
   onChangePanelTab: (tab: NodePanelTab) => void;
-  onChangeQuery: (value: string) => void;
   onClosePanel: () => void;
   onCollapseAll: () => void;
   onExpandAll: () => void;

@@ -10,7 +10,6 @@ export type BibleViewProps = {
   query: string;
   onChangeBook: (bookId: string) => void;
   onChangeChapter: (chapter: number) => void;
-  onChangeQuery: (value: string) => void;
   onCreateBranch: (verse: BibleVerse) => void;
   onExplainVerse: (verse: BibleVerse) => void;
   onFavoriteVerse: (verse: BibleVerse) => void;

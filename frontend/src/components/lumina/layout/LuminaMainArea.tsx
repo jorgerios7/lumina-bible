@@ -22,6 +22,7 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
           studies={controller.state.studies}
           nodes={controller.state.nodes}
           prompt={controller.studyPrompt}
+          query={controller.studiesQuery}
           onPromptChange={controller.setStudyPrompt}
           onCreateStudy={controller.handleCreateStudy}
           onDeleteStudy={controller.handleDeleteStudy}
@@ -42,7 +43,6 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
           onAskFromSuggestion={controller.handleAskFromSuggestion}
           onChangeNoteDraft={controller.setNoteDraft}
           onChangePanelTab={controller.setPanelTab}
-          onChangeQuery={controller.setTreeSearch}
           onClosePanel={controller.handleClosePanel}
           onCollapseAll={controller.handleCollapseAll}
           onExpandAll={controller.handleExpandAll}
@@ -61,6 +61,7 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
           activeNode={controller.activeNode}
           breadcrumb={controller.breadcrumb}
           draft={controller.chatDraft}
+          query={controller.chatQuery}
           messages={controller.activeMessages}
           nodes={controller.state.nodes}
           onChangeDraft={controller.setChatDraft}
@@ -78,7 +79,6 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
           selectedChapter={controller.selectedChapter}
           onChangeBook={controller.setSelectedBookId}
           onChangeChapter={controller.setSelectedChapter}
-          onChangeQuery={controller.setBibleQuery}
           onCreateBranch={controller.createBranchFromVerse}
           onExplainVerse={controller.handleExplainVerse}
           onFavoriteVerse={controller.toggleVerseFavorite}
@@ -101,11 +101,16 @@ export function LuminaMainArea({ controller }: LuminaMainAreaProps) {
         />
       )}
       {controller.view === "favorites" && (
-        <FavoritesView favorites={controller.state.favorites} onOpenFavorite={controller.handleOpenFavorite} />
+        <FavoritesView
+          favorites={controller.state.favorites}
+          query={controller.favoritesQuery}
+          onOpenFavorite={controller.handleOpenFavorite}
+        />
       )}
       {controller.view === "notes" && (
         <NotesView
           notes={controller.state.notes}
+          query={controller.notesQuery}
           onDeleteNote={controller.handleDeleteNote}
           onUpdateNote={controller.handleUpdateNote}
         />

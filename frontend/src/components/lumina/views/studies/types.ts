@@ -5,6 +5,7 @@ export type StudiesViewProps = {
   studies: Study[];
   nodes: StudyNode[];
   prompt: string;
+  query: string;
   onPromptChange: (value: string) => void;
   onCreateStudy: (prompt: string) => void;
   onDeleteStudy: (studyId: string) => void;

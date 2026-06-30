@@ -14,6 +14,8 @@ export type BibleBookData = BibleBook & {
   versesByChapter: Record<number, BibleVerse[]>;
 };
 
+const allBibleVersesPromises = new Map<string, Promise<BibleVerse[]>>();
+
 export const bibleCatalog: BibleBook[] = [
   { id: "gen", name: "Genesis", abbreviation: "Gn", testament: "old", order: 1 },
   { id: "exo", name: "Exodo", abbreviation: "Ex", testament: "old", order: 2 },
@@ -148,6 +150,21 @@ export async function getBibleBookData(
     chapters,
     versesByChapter,
   };
+}
+
+export function getAllBibleVerses(type = DEFAULT_BIBLE_TRANSLATION): Promise<BibleVerse[]> {
+  const bibleType = normalizeBibleTranslation(type);
+
+  if (!allBibleVersesPromises.has(bibleType)) {
+    allBibleVersesPromises.set(
+      bibleType,
+      Promise.all(
+        bibleCatalog.map((book) => getBibleBookData(book.id, bibleType)),
+      ).then((books) => books.flatMap((book) => Object.values(book.versesByChapter).flat())),
+    );
+  }
+
+  return allBibleVersesPromises.get(bibleType) as Promise<BibleVerse[]>;
 }
 
 export function filterVerses(verses: BibleVerse[], query: string) {

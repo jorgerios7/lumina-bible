@@ -4,16 +4,23 @@ import type { VerseActionHandlers } from "@/src/components/lumina/views/bible/ty
 
 type VerseListProps = VerseActionHandlers & {
   favoriteVerseIds: Set<string>;
+  showReference?: boolean;
   verses: BibleVerse[];
 };
 
-export function VerseList({ favoriteVerseIds, verses, ...handlers }: VerseListProps) {
+export function VerseList({
+  favoriteVerseIds,
+  showReference = false,
+  verses,
+  ...handlers
+}: VerseListProps) {
   return (
     <section className="verse-list">
       {verses.map((verse) => (
         <VerseRow
           isFavorite={favoriteVerseIds.has(verse.id)}
           key={verse.id}
+          showReference={showReference}
           verse={verse}
           {...handlers}
         />

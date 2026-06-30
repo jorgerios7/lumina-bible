@@ -24,19 +24,23 @@ export function StudiesGrid({
       <div className="section-header">
         <h3>Estudos recentes</h3>
       </div>
-      <div className="study-grid">
-        {studies.map((study) => (
-          <StudyCard
-            activeStudyId={activeStudy?.id}
-            key={study.id}
-            progress={computeStudyProgress(study, nodes)}
-            study={study}
-            onDeleteStudy={onDeleteStudy}
-            onOpenChat={onOpenChat}
-            onOpenTree={onOpenTree}
-          />
-        ))}
-      </div>
+      {studies.length === 0 ? (
+        <p className="muted">Nenhum estudo encontrado.</p>
+      ) : (
+        <div className="study-grid">
+          {studies.map((study) => (
+            <StudyCard
+              activeStudyId={activeStudy?.id}
+              key={study.id}
+              progress={computeStudyProgress(study, nodes)}
+              study={study}
+              onDeleteStudy={onDeleteStudy}
+              onOpenChat={onOpenChat}
+              onOpenTree={onOpenTree}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
