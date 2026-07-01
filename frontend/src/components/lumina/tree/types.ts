@@ -3,6 +3,7 @@ import type { Note, StudyNode } from "@backend/types/lumina";
 export type NodePanelTab = "summary" | "verses" | "notes";
 
 export type NodePanelProps = {
+  visible: boolean;
   node: StudyNode;
   panelTab: NodePanelTab;
   nodeNotes: Note[];

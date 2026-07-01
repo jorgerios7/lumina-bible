@@ -66,24 +66,24 @@ export function TreeView({
           />
         </section>
 
-        {isNodePanelOpen && (
-          <NodePanel
-            node={activeNode}
-            nodeNotes={nodeNotes}
-            noteDraft={noteDraft}
-            panelTab={panelTab}
-            onAddNote={onAddNote}
-            onAskFromSuggestion={onAskFromSuggestion}
-            onChangeNoteDraft={onChangeNoteDraft}
-            onChangePanelTab={onChangePanelTab}
-            onClosePanel={onClosePanel}
-            onFavoriteNode={onFavoriteNode}
-            onOpenBible={onOpenBible}
-            onOpenChat={onOpenChat}
-            onOpenFocus={onOpenFocus}
-            onShare={onShare}
-          />
-        )}
+        <NodePanel
+          visible={isNodePanelOpen}
+          node={activeNode}
+          nodeNotes={nodeNotes}
+          noteDraft={noteDraft}
+          panelTab={panelTab}
+          onAddNote={onAddNote}
+          onAskFromSuggestion={onAskFromSuggestion}
+          onChangeNoteDraft={onChangeNoteDraft}
+          onChangePanelTab={onChangePanelTab}
+          onClosePanel={onClosePanel}
+          onFavoriteNode={onFavoriteNode}
+          onOpenBible={onOpenBible}
+          onOpenChat={onOpenChat}
+          onOpenFocus={onOpenFocus}
+          onShare={onShare}
+        />
+
       </div>
 
       <TreeLegend />

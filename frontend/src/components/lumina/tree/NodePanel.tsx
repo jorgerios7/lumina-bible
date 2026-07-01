@@ -8,6 +8,7 @@ import type { NodePanelProps } from "@/src/components/lumina/tree/types";
 import type { NodeStatus, StudyNodeType } from "@backend/types/lumina";
 
 export function NodePanel({
+  visible,
   node,
   panelTab,
   nodeNotes,
@@ -22,6 +23,8 @@ export function NodePanel({
   onOpenFocus,
   onShare,
 }: NodePanelProps) {
+  if (!visible) return null;
+
   const summary = node.aiExplanation ?? node.aiSummary ?? node.description ?? "Nenhum resumo disponivel.";
   const progress = getNodeProgress(node.status);
   const reference = node.bibleReference ? formatReference(node.bibleReference) : null;
