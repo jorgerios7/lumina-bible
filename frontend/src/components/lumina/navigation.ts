@@ -13,6 +13,7 @@ export const desktopViews: NavigationViewItem[] = [
   { view: "studies", label: "Estudos", icon: "home" },
   { view: "tree", label: "Arvore", icon: "tree" },
   { view: "bible", label: "Biblia", icon: "book" },
+  { view: "chat", label: "Chat", icon: "chat" },
   { view: "favorites", label: "Favoritos", icon: "star" },
   { view: "notes", label: "Anotacoes", icon: "note" },
 ];

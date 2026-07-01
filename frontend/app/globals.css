@@ -285,10 +285,6 @@ button {
   grid-template-rows: auto 1fr auto;
 }
 
-.desktop-sidebar {
-  display: none;
-}
-
 .topbar {
   position: sticky;
   top: 0;
@@ -386,6 +382,8 @@ button {
   justify-content: space-between;
   flex: 0 0 auto;
   gap: 8px;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .sidebar-footer {
@@ -395,13 +393,19 @@ button {
   margin-top: auto;
 }
 
+.desktop-sidebar {
+  display: none;
+}
+
 .desktop-sidebar .brand-mark {
   border: 0;
   display: flex;
   align-items: center;
+  max-width: 128px;
   width: auto;
   height: auto;
   margin: 0;
+  overflow: hidden;
   border-radius: 0;
   background: transparent;
   color: var(--lb-foreground);
@@ -409,6 +413,12 @@ button {
   font-weight: 800;
   line-height: 1;
   box-shadow: none;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    max-width 140ms ease,
+    opacity 140ms ease,
+    transform 140ms ease;
 }
 
 .sidebar-toggle {
@@ -433,6 +443,18 @@ button {
   transform: translateY(1px);
 }
 
+.sidebar-toggle-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--lb-muted);
+}
+
+.sidebar-toggle-icon-collapsed {
+  width: 22px;
+  height: 22px;
+  color: var(--lb-foreground);
+}
+
 .sidebar-item {
   min-height: 48px;
   border: 0;
@@ -447,14 +469,15 @@ button {
   font-size: 13px;
 }
 
-.sidebar-item svg {
-  flex: 0 0 auto;
-}
-
-.sidebar-item.active {
+.sidebar-item:hover,
+.sidebar-item:focus-visible {
   background: var(--lb-primary-soft);
   color: var(--lb-primary);
-  font-weight: 700;
+  outline: none;
+}
+
+.sidebar-item svg {
+  flex: 0 0 auto;
 }
 
 .sidebar-user {
@@ -473,7 +496,6 @@ button {
 
 .sidebar-user:hover,
 .sidebar-user:focus-visible {
-  border-color: var(--lb-primary);
   background: var(--lb-primary-soft);
   color: var(--lb-primary);
   outline: none;
@@ -489,12 +511,40 @@ button {
   flex: 0 0 auto;
 }
 
-.sidebar-label,
-.sidebar-user-copy {
+.sidebar-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--lb-foreground);
+}
+
+.sidebar-label {
+  max-width: 140px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--lb-foreground);
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    max-width 140ms ease,
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.sidebar-user-copy {
+  max-width: 148px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--lb-muted);
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    max-width 140ms ease,
+    opacity 140ms ease,
+    transform 140ms ease;
 }
 
 .view-stack {
@@ -1759,6 +1809,7 @@ button {
   .desktop-sidebar {
     position: sticky;
     top: 0;
+    --sidebar-width-transition: 180ms;
     grid-row: 1 / span 2;
     display: flex;
     width: 224px;
@@ -1768,9 +1819,9 @@ button {
     gap: clamp(12px, 1.8vh, 18px);
     border-right: 1px solid var(--lb-line);
     background: var(--lb-surface);
-    overflow: visible;
+    overflow: hidden;
     padding: clamp(12px, 1.8vh, 18px) 10px;
-    transition: width 160ms ease;
+    transition: width var(--sidebar-width-transition) ease;
   }
 
   .desktop-sidebar .sidebar-nav {
@@ -1793,14 +1844,30 @@ button {
     width: 84px;
   }
 
-  .desktop-sidebar.collapsed .sidebar-label,
-  .desktop-sidebar.collapsed .sidebar-user-copy {
-    display: none;
+  .desktop-sidebar[data-transition="collapsing"] .brand-mark,
+  .desktop-sidebar[data-transition="collapsing"] .sidebar-label,
+  .desktop-sidebar[data-transition="collapsing"] .sidebar-user-copy {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
+  }
+
+  .desktop-sidebar[data-transition="collapsed"] .brand-mark,
+  .desktop-sidebar[data-transition="expanding"] .brand-mark,
+  .desktop-sidebar[data-transition="collapsed"] .sidebar-label,
+  .desktop-sidebar[data-transition="expanding"] .sidebar-label,
+  .desktop-sidebar[data-transition="collapsed"] .sidebar-user-copy,
+  .desktop-sidebar[data-transition="expanding"] .sidebar-user-copy {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
   }
 
   .desktop-sidebar.collapsed .brand-mark,
   .desktop-sidebar.collapsed .sidebar-item,
   .desktop-sidebar.collapsed .sidebar-user {
+    gap: 0;
     justify-content: center;
     padding-right: 0;
     padding-left: 0;
@@ -1808,10 +1875,6 @@ button {
 
   .desktop-sidebar.collapsed .sidebar-header {
     justify-content: center;
-  }
-
-  .desktop-sidebar.collapsed .brand-mark {
-    display: none;
   }
 
   .desktop-sidebar.expanded .brand-mark {
@@ -1930,6 +1993,7 @@ button {
     grid-template-columns: auto 1fr;
     margin-left: calc(var(--depth) * 18px);
   }
+
   .tree-hero-progress-ring {
     width: 58px;
     height: 58px;
