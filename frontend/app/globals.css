@@ -617,7 +617,7 @@ button {
   place-items: center;
   background:
     radial-gradient(var(--lb-surface) 57%, transparent 58%),
-    conic-gradient(var(--lb-primary) var(--progress), var(--lb-line) 0);
+    conic-gradient(var(--lb-gold) var(--progress), var(--lb-line) 0);
   color: var(--lb-foreground);
   font-size: 14px;
   font-weight: 800;
