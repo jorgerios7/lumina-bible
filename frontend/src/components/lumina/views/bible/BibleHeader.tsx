@@ -14,7 +14,6 @@ export function BibleHeader({ activeStudy, bibleBook, selectedChapter }: BibleHe
         <h2>
           {bibleBook?.name ?? "Biblia"} {selectedChapter}
         </h2>
-        <span className="muted">{activeStudy ? `Vinculado a ${activeStudy.title}` : "Leitura local"}</span>
       </div>
     </div>
   );

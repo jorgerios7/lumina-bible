@@ -711,7 +711,7 @@ button {
   min-width: 0;
 }
 
-.tree-view-shell > .legend {
+.tree-view-shell>.legend {
   width: 100%;
 }
 
@@ -1171,10 +1171,12 @@ button {
   width: fit-content;
   border: 0;
   background: transparent;
-  color: var(--lb-primary);
+  color: #4590ff;
+  text-decoration: underline;
   padding: 0;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .node-progress-card {
@@ -1193,10 +1195,10 @@ button {
   place-items: center;
   background:
     radial-gradient(var(--lb-surface-muted) 57%, transparent 58%),
-    conic-gradient(var(--lb-primary) var(--progress), var(--lb-line) 0);
+    conic-gradient(var(--lb-gold) var(--progress), var(--lb-line) 0);
   color: var(--lb-foreground);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .node-progress-card strong {
@@ -1726,6 +1728,7 @@ button {
 }
 
 @media (min-width: 680px) {
+
   .prompt-row,
   .search-row,
   .bible-controls {
@@ -1865,6 +1868,7 @@ button {
 }
 
 @media (min-width: 1120px) {
+
   .study-grid,
   .settings-grid,
   .metrics-grid,
