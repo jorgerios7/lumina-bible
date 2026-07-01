@@ -14,9 +14,6 @@ export function useLuminaNavigationActions({
   setView,
 }: UseLuminaNavigationActionsProps) {
   function isViewActive(itemView: AppView) {
-    if (itemView === "studies") {
-      return view === "studies" || view === "chat";
-    }
     return view === itemView;
   }
 
