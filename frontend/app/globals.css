@@ -717,19 +717,132 @@ button {
 
 .tree-hero {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: center;
+  min-height: 98px;
   border: 1px solid var(--lb-line);
   border-radius: 8px;
   background: var(--lb-surface);
+  color: var(--lb-foreground);
   padding: 14px;
+  box-shadow: var(--lb-shadow);
 }
 
-.tree-hero p {
-  margin: 8px 0 0;
+.tree-hero.current {
+  border-color: var(--lb-primary);
+  background: color-mix(in srgb, var(--lb-primary-soft) 48%, var(--lb-surface));
+}
+
+.tree-hero:hover,
+.tree-hero:focus-visible {
+  border-color: var(--lb-primary);
+  outline: none;
+}
+
+.tree-hero-copy {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tree-hero-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tree-hero-heading h2 {
+  color: var(--lb-foreground);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tree-hero-favorite {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   color: var(--lb-muted);
+  display: grid;
+  place-items: center;
+}
+
+.tree-hero-favorite.active {
+  color: var(--lb-gold);
+}
+
+.tree-hero-favorite.active svg {
+  fill: currentColor;
+}
+
+.tree-hero-favorite:hover,
+.tree-hero-favorite:focus-visible {
+  background: var(--lb-primary-soft);
+  color: var(--lb-primary);
+  outline: none;
+}
+
+.tree-hero-favorite.active:hover,
+.tree-hero-favorite.active:focus-visible {
+  color: var(--lb-gold);
+}
+
+.tree-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--lb-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tree-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tree-hero-meta span:not(:last-child)::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.tree-hero-summary {
+  max-width: 680px;
+  margin: 2px 0 0;
+  color: var(--lb-muted);
+  font-size: 14px;
   line-height: 1.55;
+}
+
+.tree-hero-progress {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: var(--lb-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tree-hero-progress-ring {
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(var(--lb-surface) 57%, transparent 58%),
+    conic-gradient(var(--lb-gold) var(--progress), var(--lb-line) 0);
+  color: var(--lb-foreground);
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .hero-icon,
@@ -744,6 +857,14 @@ button {
 .hero-icon {
   width: 58px;
   height: 58px;
+  border-radius: 8px;
+  background: var(--lb-primary-soft);
+  color: var(--lb-primary);
+}
+
+.hero-icon svg {
+  width: 28px;
+  height: 28px;
 }
 
 .node-icon {
@@ -809,6 +930,10 @@ button {
   width: 1px;
   content: "";
   background: var(--lb-line);
+}
+
+.tree-row.tree-hero-row::before {
+  top: calc(100% - 1px);
 }
 
 .tree-node {
@@ -1772,11 +1897,28 @@ button {
   }
 
   .tree-hero {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px;
   }
 
-  .tree-hero .progress-ring {
-    grid-column: 1 / -1;
+  .tree-hero-heading h2 {
+    font-size: 20px;
+  }
+
+  .tree-hero .hero-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .tree-hero .hero-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tree-hero-progress {
+    grid-template-columns: auto 1fr;
+    align-items: center;
     justify-self: start;
   }
 
@@ -1784,6 +1926,12 @@ button {
     grid-template-columns: auto 1fr;
     margin-left: calc(var(--depth) * 18px);
   }
+  .tree-hero-progress-ring {
+    width: 58px;
+    height: 58px;
+    font-size: 14px;
+  }
+
 
   .tree-row::before {
     left: calc(var(--depth) * 18px + 11px);

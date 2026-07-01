@@ -36,6 +36,7 @@ export function TreeView({
   const rows = getVisibleRows(nodes, activeStudy.rootNodeId, expandedNodeIds, query);
   const progress = computeStudyProgress(activeStudy, nodes);
   const nodeNotes = notes.filter((note) => note.nodeId === activeNode.id);
+  const rootNode = nodes.find((item) => item.id === activeStudy.rootNodeId);
 
   return (
     <div className="tree-view-shell">
@@ -45,9 +46,19 @@ export function TreeView({
             <Breadcrumb nodes={breadcrumb} onSelect={onSelectNode} />
             <TreeToolbar onCollapseAll={onCollapseAll} onExpandAll={onExpandAll} />
           </div>
-          <TreeHero activeStudy={activeStudy} progressPercentage={progress.percentage} />
           <TreeRows
             activeNodeId={activeNode.id}
+            hero={
+              <TreeHero
+                activeStudy={activeStudy}
+                isCurrent={activeNode.id === activeStudy.rootNodeId}
+                isFavorite={rootNode?.isFavorite ?? false}
+                progress={progress}
+                onFavorite={() => onFavoriteNode(activeStudy.rootNodeId)}
+                onSelect={() => onSelectNode(activeStudy.rootNodeId)}
+              />
+            }
+            rootNodeId={activeStudy.rootNodeId}
             rows={rows}
             onFavoriteNode={onFavoriteNode}
             onSelectNode={onSelectNode}
